@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">CoinCalculVo</string>
+    <string name="camera">Take Image</string>
+
+    <string name="title_onboarding_1">مرحبًا بك في تطبيق Bibimo </string>
+    <string name="description_onboarding_1">تطبيقنا سهل الاستخدام ، فأنت بحاجة إلى هاتفين ذكيين ، حيث يتم تثبيت هذا التطبيق</string>
+
+    <string name="title_onboarding_2">تختار المحطة في كل هاتف ذكي</string>
+    <string name="description_onboarding_2">لربط الهاتفين الذكيين ، يمكنك مسح رمز الاستجابة السريعة المعروض في محطة الطفل من هاتف المراقب</string>
+
+    <string name="title_onboarding_3">كيف تعمل؟</string>
+    <string name="description_onboarding_3">تبدأ في المراقبة من هاتف الطفل الذكي ، وتضعه في مكان أمام الطفل. في الهاتف الذكي الأم يمكنك مراقبته!</string>
+
+    <string name="start_text_advice">By continuing on this application you agree to our Terms of Use and Privacy Policy</string>
+
+    <string name="start">يبدأ</string>
+    <string name="skip">يتخطى</string>
+    <string name="finish">ينهي</string>
+    <string name="next">التالي</string>
+    <string name="back">خلف</string>
+</resources>

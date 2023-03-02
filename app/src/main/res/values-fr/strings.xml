@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">CoinCalculVo</string>
+    <string name="camera">Take Image</string>
+
+    <!--  onboarding   -->
+
+    <string name="title_onboarding_1">Bienvenue dans l\'application Bibimo Bamy monitor</string>
+    <string name="description_onboarding_1">Notre application est simple à utiliser, vous avez besoin de deux Smartphone, où est installé cette application</string>
+
+    <string name="title_onboarding_2">Vous choississez dans chaque smarthphone le station </string>
+    <string name="description_onboarding_2">Pour relier les deux Smartphone, vous scanner le code QR de affiche dans station BABY depuis le Smartphone de station Parent</string>
+
+    <string name="title_onboarding_3">Comment Ça marche?</string>
+    <string name="description_onboarding_3">Vous lancer la surveillance depuis le Smartphone de bébé, et vous le placer dans un endroit devant le bébé. dans le Smartphone de parent vous pouvez le surveiller!</string>
+
+    <string name="start_text_advice">By continuing on this application you agree to our Terms of Use and Privacy Policy</string>
+
+    <string name="start">commencer</string>
+    <string name="skip">sauter</string>
+    <string name="finish">finir</string>
+    <string name="next">suivant</string>
+    <string name="back">avant</string>
+</resources>

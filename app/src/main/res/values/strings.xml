@@ -1,0 +1,48 @@
+<resources>
+    <string name="app_name">CoinCalculVo</string>
+    <string name="camera">Take Image</string>
+
+    <!--  onboarding   -->
+
+    <string name="title_onboarding_1">Welcome to Bibimo Bamy monitor App !</string>
+    <string name="description_onboarding_1">Our application is simple to use, you need two Smartphone, where is installed this application</string>
+
+    <string name="title_onboarding_2">You choose in each smartphone the station</string>
+    <string name="description_onboarding_2">To link the two Smartphones, you scan the QR code displayed in BABY station from the Parent station Smartphone</string>
+
+    <string name="title_onboarding_3">How it works?</string>
+    <string name="description_onboarding_3">You start monitoring from the baby\'s Smartphone, and place it in a place in front of the baby. in the parent Smartphone you can monitor it.</string>
+
+    <string name="start_text_advice">By continuing on this application you agree to our Terms of Use and Privacy Policy</string>
+
+    <string name="start">start</string>
+    <string name="skip">Skip</string>
+    <string name="finish">finish</string>
+    <string name="next">next</string>
+    <string name="back">back</string>
+
+
+    <!-- other strings      -->
+    <string name="calibration">Calibration</string>
+    <string name="picture">Picture</string>
+    <string name="description_info">Info</string>
+    <string name="request_permission">This sample needs camera permission.</string>
+    <string name="camera_error">This device doesn\'t support Camera2 API.</string>
+    <string name="intro_message">
+        <![CDATA[
+            This sample demonstrates the basic use of Camera2 API. Check the source code to see how
+            you can display camera preview and take pictures.
+        ]]>
+    </string>
+    <string name="action_calibrate">Calibrate</string>
+    <string name="undistortion">Undistortion</string>
+    <string name="comparison">Comparison</string>
+    <string name="preview_mode">Preview mode</string>
+    <string name="calibration_successful">Successfully calibrated!\nAvg. re-projection error:</string>
+    <string name="calibration_unsuccessful">Unsuccessful calibration.\nTry again</string>
+    <string name="more_samples">Please, capture more samples</string>
+    <string name="calibrating">Calibrating...</string>
+    <string name="please_wait">Please, wait</string>
+    <string name="original">Original</string>
+    <string name="undistorted">Undistorted</string>
+</resources>
