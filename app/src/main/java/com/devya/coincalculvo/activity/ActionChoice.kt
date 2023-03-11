@@ -15,7 +15,7 @@ class ActionChoice : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_action_choice)
 
-        supportActionBar?.title = "Coins Calucul App"
+        supportActionBar?.title = "Coins Calcul"
 
        coinType =  intent.getStringExtra("coinType")
 

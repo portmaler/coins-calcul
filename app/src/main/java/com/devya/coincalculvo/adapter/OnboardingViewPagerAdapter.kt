@@ -23,12 +23,12 @@ class OnboardingViewPagerAdapter(
             1 -> OnboardingFragment.newInstance(
                 context.resources.getString(R.string.title_onboarding_2),
                 context.resources.getString(R.string.description_onboarding_2),
-                R.drawable.mobilecon
+                R.drawable.calibre
             )
             else -> OnboardingFragment.newInstance(
                 context.resources.getString(R.string.title_onboarding_3),
                 context.resources.getString(R.string.description_onboarding_3),
-                R.drawable.phone
+                R.drawable.aruco
             )
         }
     }

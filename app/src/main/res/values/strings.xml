@@ -1,17 +1,17 @@
 <resources>
-    <string name="app_name">CoinCalculVo</string>
+    <string name="app_name">Coins Calcul</string>
     <string name="camera">Take Image</string>
 
     <!--  onboarding   -->
 
-    <string name="title_onboarding_1">Welcome to Bibimo Bamy monitor App !</string>
-    <string name="description_onboarding_1">Our application is simple to use, you need two Smartphone, where is installed this application</string>
+    <string name="title_onboarding_1">Welcome to Coins Calcul App !</string>
+    <string name="description_onboarding_1">Our application is simple to use, you need to adjust some requirements and enjoy the App</string>
 
-    <string name="title_onboarding_2">You choose in each smartphone the station</string>
-    <string name="description_onboarding_2">To link the two Smartphones, you scan the QR code displayed in BABY station from the Parent station Smartphone</string>
+    <string name="title_onboarding_2">Adjustment of camera calibration</string>
+    <string name="description_onboarding_2">You would setup yhe calibration of the camera if your camera create lens distortion</string>
 
-    <string name="title_onboarding_3">How it works?</string>
-    <string name="description_onboarding_3">You start monitoring from the baby\'s Smartphone, and place it in a place in front of the baby. in the parent Smartphone you can monitor it.</string>
+    <string name="title_onboarding_3">Print the paper helper (Aruco)</string>
+    <string name="description_onboarding_3">Put a piece of paper called Aruco which measures 5x5 cm, it consists of reference for the calculation.</string>
 
     <string name="start_text_advice">By continuing on this application you agree to our Terms of Use and Privacy Policy</string>
 

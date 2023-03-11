@@ -14,7 +14,7 @@ using namespace cv;
 extern "C"
 JNIEXPORT jlong JNICALL
 Java_com_devya_coincalculvo_activity_ProccesImageActivity_processMat(JNIEnv *env, jobject thiz,
-                                                                     jlong mat_addr,jint length) {
+                                                                     jlong mat_addr,jint length,jint coin_type) {
     // Get Mat data for image input and camera calibration matrices.
     Mat &input_mat = *(Mat *) mat_addr;
 
@@ -107,7 +107,7 @@ Java_com_devya_coincalculvo_activity_ProccesImageActivity_processMat(JNIEnv *env
                     cv::circle(*mat_dst, center_int, radius_int, cv::Scalar(0, 255, 0), 4);
                 }
                // get index of array of detected coin and increment his number
-                int res = assignvaluetocoin(object_radius);
+                int res = assignvaluetocoin(object_radius,coin_type);
                if(res != -1)
                 intCArray[res] += 1;
 
@@ -130,4 +130,50 @@ Java_com_devya_coincalculvo_activity_ProccesImageActivity_processMat(JNIEnv *env
 
     return (jlong)mat_dst;
 
+}
+
+extern "C"
+JNIEXPORT jlong JNICALL
+Java_com_devya_coincalculvo_activity_ProccesImageActivity_findArUCo(JNIEnv *env, jobject thiz,
+                                                                    jlong mat_addr,
+                                                                    jlong camera_matrix,
+                                                                    jlong distortion_coefficients,
+                                                                    jboolean is_calibration_available) {
+    // Get Mat data for image input and camera calibration matrices.
+    Mat &input_mat = *(Mat *) mat_addr;
+    Mat &cameraMatrix = *(Mat *) camera_matrix;
+    Mat &distCoeffs = *(Mat *) distortion_coefficients;
+
+    // ArUco library requires CV_8UC3 (without alpha channel) input.
+    cv::Size input_size = input_mat.size();
+    cv::Mat *mat_dst = new cv::Mat(input_size.height, input_size.width, CV_8UC3);
+    cv::cvtColor(input_mat, *mat_dst, cv::COLOR_RGBA2GRAY);
+
+    cv::undistort(input_mat,*mat_dst,cameraMatrix,distCoeffs);
+
+    // Initialization for ArUco library functions.
+    std::vector<int> ids;
+    std::vector<std::vector<cv::Point2f>> corners;
+    cv::Ptr<cv::aruco::Dictionary> dictionary = aruco::Dictionary::get(aruco::DICT_5X5_50);
+    cv::aruco::detectMarkers(*mat_dst, dictionary, corners, ids);
+
+    // If at least one marker detected.
+    if (ids.size() > 0) {
+        // Draw the indicators around the detected markers.
+        cv::aruco::drawDetectedMarkers(*mat_dst, corners, ids);
+
+        // Pose estimation can be performed only when the calibration is available.
+        if(is_calibration_available) {
+            // Initialize the pose estimation vectors.
+            std::vector<cv::Vec3d> rvecs, tvecs;
+            // Estimate the pose.
+            cv::aruco::estimatePoseSingleMarkers(corners, 0.05, cameraMatrix, distCoeffs, rvecs,
+                                                 tvecs);
+            // Draw axis for each marker.
+            for (int i = 0; i < ids.size(); i++)
+                cv::drawFrameAxes(*mat_dst, cameraMatrix, distCoeffs, rvecs[i], tvecs[i], 0.1);
+        }
+    }
+
+    return (jlong)mat_dst;
 }

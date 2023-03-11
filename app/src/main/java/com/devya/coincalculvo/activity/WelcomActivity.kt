@@ -21,7 +21,7 @@ class WelcomActivity : AppCompatActivity() {
         binding = ActivityWelcomBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        supportActionBar?.title = "Coins Calucul App"
+        supportActionBar?.title = "Coins Calcul"
 
         val imageIds: IntArray = intArrayOf(
             R.drawable.dh,
@@ -56,7 +56,7 @@ class WelcomActivity : AppCompatActivity() {
             val i = Intent(this, ActionChoice::class.java)
             i.putExtra("coinType", name)
             startActivity(i)
-            Toast.makeText(this@WelcomActivity, "Click on : " + name[position], Toast.LENGTH_LONG)
+            Toast.makeText(this@WelcomActivity, "Click on : " + name, Toast.LENGTH_LONG)
                 .show()
         }
     }

@@ -16,11 +16,14 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.net.toUri
 import com.devya.coincalculvo.R
 import com.devya.coincalculvo.util.calculSum
+import com.devya.coincalculvo.util.getCoinTypeListLength
+import com.devya.coincalculvo.util.getIntTypefromstring
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.CoroutineScope
@@ -30,6 +33,7 @@ import org.opencv.android.BaseLoaderCallback
 import org.opencv.android.OpenCVLoader
 import org.opencv.android.Utils
 import org.opencv.calib3d.Calib3d
+import org.opencv.core.CvType
 import org.opencv.core.Mat
 import java.io.File
 import java.io.FileOutputStream
@@ -69,6 +73,9 @@ class ProccesImageActivity : AppCompatActivity() {
     private var takenPhoto: Mat? = null
 
     var images: Mat? = null
+    //ddd
+    private var mCameraMatri: Mat? = null
+    private var mDistortionCoefficient: Mat? = null
 
 
     private val baseLoaderCallback: BaseLoaderCallback = object : BaseLoaderCallback(this) {
@@ -92,7 +99,7 @@ class ProccesImageActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_procces_image)
 
-        supportActionBar?.title = "Coins Calucul App"
+        supportActionBar?.title = "Coins Calcul"
 
         coinType =  intent.getStringExtra("coinType")
 
@@ -123,11 +130,7 @@ class ProccesImageActivity : AppCompatActivity() {
 
         /**set camera Open*/
         cameraBtn.setOnClickListener {
-            //   takePictureAndSaveIt()
             CoroutineScope(Dispatchers.IO).launch {
-              /*  val cameraInt = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-                cameraInt.putExtra(MediaStore.EXTRA_OUTPUT, getImageUri())
-                startActivityForResult(cameraInt, CAMERA_PHOTO)*/
 
                 val dest = File(getImageUri()!!.path)
                 try {
@@ -151,10 +154,17 @@ class ProccesImageActivity : AppCompatActivity() {
                 CoroutineScope(Dispatchers.IO).launch {
                     var map : Bitmap = currontBitmapImage !!
                     Utils.bitmapToMat(map, images)
+                   // var matDistor = removeDistorsionFromImage(images!!)
+                    var matix = mCameraMatrix
+                    var mdist = mDistortionCoefficients
+                   Log.d("mylog", "Matrix is " + matix!!.dump())
+                    Log.d("mylog", "Matrix distor is " + mdist!!.dump())
+                    Log.d("mylog", "Matrix test  is " + testt)
+                   // var matDistor = testCalibration(images!!)
                     var matDistor = removeDistorsionFromImage(images!!)
                     Utils.matToBitmap(matDistor,map)
                     runOnUiThread {
-                        myImage.setImageBitmap(map)
+                        myImage.setImageBitmap(currontBitmapImage)
                     }
                 }
 
@@ -172,7 +182,7 @@ class ProccesImageActivity : AppCompatActivity() {
                     Log.d("mylog", "currandtbitmap is not null from proceess button ")
                     Utils.bitmapToMat(currontBitmapImage, images)
                     
-                    var matDistor = Mat(processMat(images!!.nativeObjAddr,5))
+                    var matDistor = Mat(processMat(images!!.nativeObjAddr,getCoinTypeListLength(coinType),getIntTypefromstring(coinType)))
                     Utils.matToBitmap(matDistor, currontBitmapImage)
                     runOnUiThread {
                         myImage.setImageBitmap(currontBitmapImage)
@@ -189,6 +199,8 @@ class ProccesImageActivity : AppCompatActivity() {
 
 
     }
+
+
 
     private fun loadData() {
         try {
@@ -208,7 +220,9 @@ class ProccesImageActivity : AppCompatActivity() {
     }
 
     /**
-     *
+     * Call of opencv function that remove distorsion from given Mat image
+     * @param Mat image
+     * @return Mat image without distortion
      */
    private fun removeDistorsionFromImage(inputFrame: Mat): Mat? {
         val renderedFrame = Mat(inputFrame.size(), inputFrame.type())
@@ -220,6 +234,55 @@ class ProccesImageActivity : AppCompatActivity() {
        }
 
         return renderedFrame
+    }
+
+
+
+    private fun testCalibration(mat: Mat):Mat{
+        mCameraMatri = Mat()
+        mDistortionCoefficient = Mat()
+        Mat.eye(3, 3, CvType.CV_64FC1).copyTo(mCameraMatri)
+        mCameraMatri!!.put(0, 0, 1.0)
+        Mat.zeros(5, 1, CvType.CV_64FC1).copyTo(mDistortionCoefficient)
+
+        val row = 0
+        val col = 0
+        val mCamData = floatArrayOf(
+            1996.807433241645F, 0F, 479.5F,
+            0F, 1996.807433241645F, 359.5F,
+            0F, 0F, 1F
+        )
+
+        val mDisData = floatArrayOf(
+                 -400.01682438.toFloat(), 41.368842493074.toFloat(), 0.0.toFloat(), 0.0.toFloat(), 10.096412142704.toFloat()
+        )
+
+        var mCamMat = Mat(3, 3, CvType.CV_32FC1)
+        val mDisMat= Mat(5, 1, CvType.CV_32FC1)
+
+        mCamMat.put(row, col, mCamData)
+        mDisMat.put(row, col, mDisData)
+
+        if ( mCameraMatrix!=null && mDistortionCoefficients!=null) {
+            // Calibration data is available.
+            return Mat(
+                findArUCo(
+                    mat.nativeObjAddr,
+                    mCameraMatrix!!.nativeObjAddr, mDistortionCoefficients!!.nativeObjAddr, true
+                )
+            )
+        }
+        else{
+          /*  Log.d("mylog", "Matrix is " + mCamMat!!.dump())
+            Log.d("mylog", "Matrix distor is " + mDisMat!!.dump())
+            Log.d("mylog", "Matrix test  is " + testt)*/
+            return Mat(
+                findArUCo(
+                    mat.nativeObjAddr,
+                    mCameraMatri!!.nativeObjAddr,  mDistortionCoefficient!!.nativeObjAddr, true
+                )
+            )
+        }
     }
 
 
@@ -307,10 +370,11 @@ class ProccesImageActivity : AppCompatActivity() {
     /**
      * Set the result of c++ function in JNI in UI
      */
+    @RequiresApi(Build.VERSION_CODES.N)
     fun getCalculResulFromJNI(array:IntArray){
 
        CoroutineScope(Dispatchers.IO).launch {
-           val sum: Float = calculSum("dirham", array)
+           val sum: Float = calculSum(coinType!!, array)
             Log.e(TAG,"result is " + result )
            runOnUiThread {
                result.text = sum.toString()
@@ -326,24 +390,21 @@ class ProccesImageActivity : AppCompatActivity() {
 
                coin1.text = "${array[0]} (0.5 dh)"
                 coin2.text = "${array[1]} (1 dh)"
-                coin3.text = "${array[2]} (2 dh)"
-                coin4.text = "${array[3]} (5 dh)"
-                coin5.text = "${array[4]} (10 dh)"
+                coin3.text = "${array[2]} (5 dh)"
+                coin4.text = "${array[3]} (10 dh)"
             }
             "dollar" -> {
                 coin1.text = "${array[0]} dollar"
                 coin2.text = "${array[1]} dollar"
                 coin3.text = "${array[2]} dollar"
                 coin4.text = "${array[3]} dollar"
-                coin5.text = "${array[4]} dollar"
 
             }
             "euro" -> {
-                coin1.text = "${array[0]} euro"
-                coin2.text = "${array[1]} euro"
-                coin3.text = "${array[2]} euro"
-                coin4.text = "${array[3]} euro"
-                coin5.text = "${array[4]} euro"
+                coin1.text = "${array[0]} 0.05euro"
+                coin2.text = "${array[1]} 0.1euro"
+                coin3.text = "${array[2]} 0.2euro"
+                coin4.text = "${array[3]} 0.5euro"
 
             }
         }
@@ -369,8 +430,8 @@ class ProccesImageActivity : AppCompatActivity() {
      * reference for c++ JNI function tha process image.
      * @return a Long value of image that must be converted to Mat or Bitmap
      */
-    private external fun processMat(matAddr: Long, length: Int): Long
-
+    private external fun processMat(matAddr: Long, length: Int, coinType: Int): Long
+    private external fun findArUCo(matAddr: Long, cameraMatrix: Long, distortionCoefficients: Long, isCalibrationAvailable: Boolean): Long
 
     companion object {
 

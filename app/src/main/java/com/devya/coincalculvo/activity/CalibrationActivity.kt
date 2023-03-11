@@ -10,10 +10,12 @@ import android.view.WindowManager
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import com.devya.coincalculvo.R
-import com.devya.coincalculvo.calibration.CalibrationResult
 import com.devya.coincalculvo.calibration.CameraCalibrator
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.gson.Gson
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.opencv.android.*
 import org.opencv.core.Mat
 
@@ -82,7 +84,11 @@ class CalibrationActivity : Activity(),CameraBridgeViewBase.CvCameraViewListener
 
         val backButton: FloatingActionButton =findViewById<FloatingActionButton>(R.id.back_button)
         backButton.setOnClickListener{
-            saveData()
+            CoroutineScope(Dispatchers.IO).launch{
+                saveData()
+            }
+
+
           finish()
         }
     }
@@ -135,13 +141,7 @@ class CalibrationActivity : Activity(),CameraBridgeViewBase.CvCameraViewListener
     override fun onCameraViewStarted(width: Int, height: Int) {
 
         mCalibrator = CameraCalibrator(width, height)
-
-        // If the calibration data is available, then set the camera matrix and distortion coefficients.
-        if (CalibrationResult.tryLoad(this, mCalibrator!!.getCameraMatrix(), mCalibrator!!.getDistortionCoefficients())) {
-            mCalibrator!!.setCalibrated();
-            mCameraMatrix = mCalibrator!!.cameraMatrix
-            mDistortionCoefficients = mCalibrator!!.distortionCoefficients
-        }
+        
     }
 
     override fun onCameraViewStopped() {}
@@ -165,7 +165,7 @@ class CalibrationActivity : Activity(),CameraBridgeViewBase.CvCameraViewListener
                 Log.d("calibrelog", "cameramatrex  : ${mCameraMatrix}" + " distorsion :  ${mDistortionCoefficients}" )
 
                 // Save the calibration data using SharedPreferences.
-                CalibrationResult.save(this,  mCalibrator!!.getCameraMatrix(), mCalibrator!!.getDistortionCoefficients())
+                //CalibrationResult.save(this,  mCalibrator!!.getCameraMatrix(), mCalibrator!!.getDistortionCoefficients())
             }else{
                 Log.d("calibrelog", "cameramatrex  : ${mCameraMatrix}" + " distorsion :  ${mDistortionCoefficients}" )
                 Toast.makeText(applicationContext,"The calibration pattern was not found.", Toast.LENGTH_SHORT).show()
