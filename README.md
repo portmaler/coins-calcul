@@ -1,6 +1,6 @@
 # Coin Recognition Android Application
 
-![App Screenshot](screenshot.png)
+![App Screenshot](img.png)
 
 This Android application utilizes computer vision techniques to recognize and classify different coins, simplifying the process of sorting and counting them in commercial or domestic contexts. By leveraging image processing techniques such as segmentation, contour detection, and feature extraction, the application can accurately identify coins based on their visual characteristics.
 
@@ -30,7 +30,7 @@ To get started with the application, follow these steps:
 
 ## License
 
-.. include:: LICENCE
+This project is licensed under the [MIT License](LICENSE).
 
 ## Contributing
 
