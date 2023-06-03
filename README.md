@@ -30,17 +30,13 @@ To get started with the application, follow these steps:
 
 ## License
 
-This project is licensed under the [MIT License](LICENSE).
+.. include:: LICENCE
 
 ## Contributing
 
-Contributions are welcome! If you encounter any issues or have suggestions for improvements, please feel free to submit a pull request or open an issue.
+If you've found an error in the project, please file an issue.
 
-## Acknowledgments
+Patches are encouraged and may be submitted by forking this project and submitting a pull request. Since this project is still in its very early stages, if your change is substantial, please raise an issue first to discuss it.
 
-We would like to acknowledge the contributions of the open-source community and the developers behind the tools and libraries used in this application.
 
-## Contact
-
-For any inquiries or further information, please contact [your-email-address].
 
