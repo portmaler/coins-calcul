@@ -23,7 +23,7 @@ This Android application utilizes computer vision techniques to recognize and cl
 
 To get started with the application, follow these steps:
 
-1. Clone the repository: `git clone https://github.com/your-username/your-repository.git`
+1. Clone the repository: `git clone https://github.com/portmaler/coins-calcul.git`
 2. Open the project in Android Studio.
 3. Build and run the application on your Android device or emulator.
 4. Follow the on-screen instructions to capture or choose a photo of coins for recognition.
